@@ -1,0 +1,14 @@
+---
+
+- name: check if smartd default cfg file exists
+  stat:
+    path: /etc/default/smartmontools
+  register: smartmontools_defaults
+
+- name: ensure smartd does not stop when no disks are found (rpis i.e.)
+  ansible.builtin.lineinfile:
+    path: /etc/default/smartmontools
+    regexp: '^smartd_opts'
+    line: 'smartd_opts="-q never"'
+  when: smartmontools_defaults.stat.exists
+  notify: restart smartd
