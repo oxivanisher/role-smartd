@@ -1,2 +1,10 @@
 ---
 # defaults file for smartd
+
+# this is to battle this three year old bug which seems to be ignored:
+# https://www.smartmontools.org/ticket/1222
+# basically, some versions of smartmontools will report daily errors
+# on nvme drives, even if there are no errors. -.-
+# disabling devicescan requires you to configure the drives manually in
+# /etc/smartd.conf
+smartd_disable_devicescan: false
