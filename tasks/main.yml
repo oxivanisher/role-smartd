@@ -1,7 +1,7 @@
 ---
 
 - name: check if smartd default cfg file exists
-  stat:
+  ansible.builtin.stat:
     path: /etc/default/smartmontools
   register: smartmontools_defaults
 
@@ -20,4 +20,3 @@
     line: '#DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner'
   when: smartd_disable_devicescan
   notify: restart smartd
-
