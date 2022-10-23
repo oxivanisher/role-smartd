@@ -1,22 +1,22 @@
 ---
 
-- name: check if smartd default cfg file exists
+- name: Check if smartd default cfg file exists
   ansible.builtin.stat:
     path: /etc/default/smartmontools
   register: smartmontools_defaults
 
-- name: ensure smartd does not stop when no disks are found (rpis i.e.)
+- name: Ensure smartd does not stop when no disks are found (rpis i.e.)
   ansible.builtin.lineinfile:
     path: /etc/default/smartmontools
     regexp: '^smartd_opts'
     line: 'smartd_opts="-q never"'
   when: smartmontools_defaults.stat.exists
-  notify: restart smartd
+  notify: Restart smartd
 
-- name: disable devicescan to reduce spam mails for nvme drives
+- name: Disable devicescan to reduce spam mails for nvme drives
   ansible.builtin.lineinfile:
     path: /etc/smartd.conf
     regexp: '^DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner$'
     line: '#DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner'
   when: smartd_disable_devicescan
-  notify: restart smartd
+  notify: Restart smartd
