@@ -20,7 +20,9 @@
     path: /etc/smartd.conf
     regexp: '^DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner$'
     line: '#DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner'
-  when: smartd_disable_devicescan
+  when:
+    - smartd_disable_devicescan
+    - smartmontools_defaults.stat.exists
   notify: Restart smartd
   become: true
   become_user: root
