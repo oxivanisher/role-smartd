@@ -21,7 +21,7 @@
     regexp: '^DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner$'
     line: '#DEVICESCAN -d removable -n standby -m root -M exec /usr/share/smartmontools/smartd-runner'
   when:
-    - smartd_disable_devicescan
+    - smartd_disable_devicescan | bool
     - smartmontools_defaults.stat.exists
   notify: Restart smartd
   become: true
